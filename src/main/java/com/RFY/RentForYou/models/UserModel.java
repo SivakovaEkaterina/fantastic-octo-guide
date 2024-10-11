@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "user_in")
 public class UserModel {
@@ -26,28 +28,38 @@ public class UserModel {
     @Size(min = 3, message = "Имя не менее 3 символов")
     private String ThirdNameUser;
     @Nullable
-    private Long IdPicture;
+    @OneToOne
+    @JoinColumn(name = "id_picture", referencedColumnName = "IdPicture")
+    private PictureModel IdPicture;
     @Nullable
     @OneToOne
     @JoinColumn(name = "passport_id", referencedColumnName = "IdPassport")
     private PassportModel IdPassport;
-    @Nullable
+    /*@Nullable
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "IdRole")
-    private RoleModel IdRole;
+    private RoleModel IdRole;*/
     @Nullable
     @Pattern(regexp = "\\d+", message = "Поле должно содержать только цифры")
     private String PhoneNumberUser;
+    @Nullable
     @Email(message = "Некорректный email")
     private String EmailUser;
     @Size(min = 3, message = "Логин не менее 3 символов")
     private String LoginUser;
     @Size(min = 6, message = "Пароль не менее 6 символов")
     private String PasswordUser;
+    private boolean active;
+    @ElementCollection(targetClass = RoleEnum.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<RoleEnum> roles;
+
+
 
     public UserModel(){}
 
-    public UserModel(Long idUser, String nickNameUser, String firstNameUser, String secondNameUser, @Nullable String thirdNameUser, @Nullable Long idPicture, @Nullable PassportModel idPassport, @Nullable RoleModel idRole, @Nullable String phoneNumberUser, String emailUser, String loginUser, String passwordUser) {
+    public UserModel(Long idUser, String nickNameUser, String firstNameUser, String secondNameUser, @Nullable String thirdNameUser, @Nullable PictureModel idPicture, @Nullable PassportModel idPassport, @Nullable String phoneNumberUser,@Nullable String emailUser, String loginUser, String passwordUser, boolean active, Set<RoleEnum> roles) {
         IdUser = idUser;
         NickNameUser = nickNameUser;
         FirstNameUser = firstNameUser;
@@ -55,18 +67,19 @@ public class UserModel {
         ThirdNameUser = thirdNameUser;
         IdPicture = idPicture;
         IdPassport = idPassport;
-        IdRole = idRole;
         PhoneNumberUser = phoneNumberUser;
         EmailUser = emailUser;
         LoginUser = loginUser;
         PasswordUser = passwordUser;
+        this.active = active;
+        this.roles = roles;
     }
 
-    public Long getId() {
+    public Long getIdUser() {
         return IdUser;
     }
 
-    public void setId(Long idUser) {
+    public void setIdUser(Long idUser) {
         IdUser = idUser;
     }
 
@@ -104,11 +117,11 @@ public class UserModel {
     }
 
     @Nullable
-    public Long getIdPicture() {
+    public PictureModel getIdPicture() {
         return IdPicture;
     }
 
-    public void setIdPicture(@Nullable Long idPicture) {
+    public void setIdPicture(@Nullable PictureModel idPicture) {
         IdPicture = idPicture;
     }
 
@@ -154,20 +167,19 @@ public class UserModel {
         PasswordUser = passwordUser;
     }
 
-    public Long getIdUser() {
-        return IdUser;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setIdUser(Long idUser) {
-        IdUser = idUser;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
-    @Nullable
-    public RoleModel getIdRole() {
-        return IdRole;
+    public Set<RoleEnum> getRoles() {
+        return roles;
     }
 
-    public void setIdRole(@Nullable RoleModel idRole) {
-        IdRole = idRole;
+    public void setRoles(Set<RoleEnum> roles) {
+        this.roles = roles;
     }
 }

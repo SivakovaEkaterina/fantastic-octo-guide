@@ -1,6 +1,7 @@
 package com.RFY.RentForYou.models;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -18,6 +19,7 @@ public class PassportModel {
     private String NumberPassport;
 
     @Column(name = "issue_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date IssueDatePassport;
 
     @Column(name = "issued_by", nullable = false)

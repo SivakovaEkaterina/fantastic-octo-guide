@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import com.RFY.RentForYou.repository.FlatPictureRepository;
 
 @Service
-public class FlatPictureServerImpl extends CommonServerImpl<FlatPictureModel, Long, FlatPictureRepository> {
-    public FlatPictureServerImpl(FlatPictureRepository repository) {
-        super(repository);
-    }
+public class FlatPictureServerImpl{
+
 }

@@ -1,10 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+
+<form action="/user/add" method="post" th:object="${user}">
+    <input type="text" name="nickNameUser" placeholder="Никнейм" th:field="*{nickNameUser}" required>
+    <div th:if="${#fields.hasErrors('nickNameUser')}" th:errors="*{nickNameUser}">
+        Никнейм обязательный
+    </div>
+
+    <input type="text" name="firstNameUser" placeholder="Имя" th:field="*{firstNameUser}" required>
+    <div th:if="${#fields.hasErrors('firstNameUser')}" th:errors="*{firstNameUser}">
+        Имя обязательное
+    </div>
+
+    <input type="text" name="secondNameUser" placeholder="Фамилия" th:field="*{secondNameUser}" required>
+    <div th:if="${#fields.hasErrors('secondNameUser')}" th:errors="*{secondNameUser}">
+        Фамилия обязательная
+    </div>
+
+    <input type="text" name="thirdNameUser" placeholder="Отчество" th:field="*{thirdNameUser}" required>
+    <div th:if="${#fields.hasErrors('thirdNameUser')}" th:errors="*{thirdNameUser}">
+        Отчество обязательное
+    </div>
+
+    <br>
+
+    <input type="text" name="phoneNumberUser" placeholder="Номер телефона" th:field="*{phoneNumberUser}" required>
+    <div th:if="${#fields.hasErrors('phoneNumberUser')}" th:errors="*{phoneNumberUser}">
+        Номер телефона обязательный
+    </div>
+
+    <input type="email" name="emailUser" placeholder="Email" th:field="*{emailUser}" required>
+    <div th:if="${#fields.hasErrors('emailUser')}" th:errors="*{emailUser}">
+        Email обязательный
+    </div>
+
+    <input type="text" name="loginUser" placeholder="Логин" th:field="*{loginUser}" required>
+    <div th:if="${#fields.hasErrors('loginUser')}" th:errors="*{loginUser}">
+        Логин обязательный
+    </div>
+
+    <input type="password" name="passwordUser" placeholder="Пароль" th:field="*{passwordUser}" required>
+    <div th:if="${#fields.hasErrors('passwordUser')}" th:errors="*{passwordUser}">
+        Пароль обязательный
+    </div>
+
+    <select th:field="*{idRole}">
+        <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.id}">Role</option>
+    </select>
+
+    <select th:field="*{idPicture}">
+        <option th:each="picture : ${pictures}" th:value="${picture.id}" th:text="${picture.id}">Picture</option>
+    </select>
+
+    <select th:field="*{idPassport}">
+        <option th:each="passport : ${passports}" th:value="${passport.id}" th:text="${passport.id}">Passport</option>
+    </select>
+
+    <button type="submit" formmethod="post"> Добавить пользователя </button>
+</form>
+
+<h2>Все пользователи: </h2>
+<ul>
+    <th:block th:each="oneuser : ${models}">
+        <li>
+            <span th:text="${oneuser.nickNameUser}"></span> -
+            <span th:text="${oneuser.firstNameUser}"></span> -
+            <span th:text="${oneuser.secondNameUser}"></span> -
+            <span th:text="${oneuser.thirdNameUser}"></span> -
+            <span th:text="${oneuser.phoneNumberUser}"></span> -
+            <span th:text="${oneuser.emailUser}"></span> -
+            <span th:text="${oneuser.loginUser}"></span> -
+            <span th:text="${oneuser.passwordUser}"></span>
+            <form action="/user/update" method="post">
+                <input type="hidden" name="id" th:value="${oneuser.id}">
+                <input type="text" name="nickNameUser" placeholder="Никнейм" th:value="${oneuser.nickNameUser}" required>
+                <input type="text" name="firstNameUser" placeholder="Имя" th:value="${oneuser.firstNameUser}" required>
+                <input type="text" name="secondNameUser" placeholder="Фамилия" th:value="${oneuser.secondNameUser}" required>
+                <input type="text" name="thirdNameUser" placeholder="Отчество" th:value="${oneuser.thirdNameUser}" required>
+                <input type="text" name="phoneNumberUser" placeholder="Номер телефона" th:value="${oneuser.phoneNumberUser}" required>
+                <input type="email" name="emailUser" placeholder="Email" th:value="${oneuser.emailUser}" required>
+                <input type="text" name="loginUser" placeholder="Логин" th:value="${oneuser.loginUser}" required>
+                <input type="password" name="passwordUser" placeholder="Пароль" th:value="${oneuser.passwordUser}" required>
+                <button type="submit" formmethod="post"> Изменить </button>
+            </form>
+            <form action="/user/delete" method="post" style="display:inline;">
+                <input type="hidden" name="id" th:value="${oneuser.id}">
+                <button type="submit" formmethod="post">Удалить</button>
+            </form>
+        </li>
+    </th:block>
+</ul>
 </body>
 </html>

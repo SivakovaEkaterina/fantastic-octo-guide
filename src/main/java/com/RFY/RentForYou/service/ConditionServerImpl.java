@@ -5,8 +5,5 @@ import org.springframework.stereotype.Service;
 import com.RFY.RentForYou.repository.ConditionRepository;
 
 @Service
-public class ConditionServerImpl extends CommonServerImpl<ConditionModel, Long, ConditionRepository> {
-    public ConditionServerImpl(ConditionRepository repository) {
-        super(repository);
-    }
+public class ConditionServerImpl{
 }

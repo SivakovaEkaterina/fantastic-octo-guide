@@ -19,39 +19,39 @@ public class CityController {
 
     @GetMapping("")
     public String getAll(Model model) {
-        model.addAttribute("entities", cityServer.findAll());
-        model.addAttribute("newEntity", new CityModel()); // renamed to "newEntity"
+        model.addAttribute("models", cityServer.findAllCity());
+        model.addAttribute("city", new CityModel());
         return "adminPg0";
     }
 
     @PostMapping("/add")
-    public String add(@Valid @ModelAttribute("newEntity") CityModel card,
+    public String add(@Valid @ModelAttribute("city") CityModel card,
                       BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("entities", cityServer.findAll());
+            model.addAttribute("models", cityServer.findAllCity());
             return "adminPg0";
         }
-        cityServer.add(card);
+        cityServer.addCity(card);
         return "redirect:/city";
     }
 
 
     @PostMapping("/update")
-    public String update(@Valid @ModelAttribute("existingEntity") CityModel card, BindingResult result) {
-        cityServer.update(card);
+    public String update(@Valid @ModelAttribute("city") CityModel card, BindingResult result) {
+        cityServer.updateCity(card);
         return "redirect:/city";
     }
 
     @PostMapping("/delete")
     public String delete(@RequestParam Long id) {
-        cityServer.delete(id);
+        cityServer.deleteCity(id);
         return "redirect:/city";
     }
 
     @PostMapping("/{id}")
     public String getId(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("existingEntity", cityServer.find(id));
-        model.addAttribute("newEntity", new CityModel());
+        model.addAttribute("models", cityServer.findCity(id));
+        model.addAttribute("city", new CityModel());
         return "adminPg0";
     }
 }

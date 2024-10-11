@@ -1,4 +1,12 @@
 package com.RFY.RentForYou.models;
 
-public enum RoleEnum {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum RoleEnum implements GrantedAuthority {
+    User, Admin, Manager;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }

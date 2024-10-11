@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "city")
-public class CityModel  {
+public class CityModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long IdCity;

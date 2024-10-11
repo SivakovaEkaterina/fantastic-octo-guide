@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "condition")
-public class ConditionModel {
+public class ConditionModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long IdCondition;

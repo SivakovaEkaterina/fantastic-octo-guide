@@ -1,11 +1,10 @@
 package com.RFY.RentForYou.models;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "role")
-public class RoleModel {
+public class RoleModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long IdRole;

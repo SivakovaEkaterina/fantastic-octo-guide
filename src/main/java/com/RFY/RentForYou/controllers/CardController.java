@@ -19,7 +19,7 @@ public class CardController {
 
     @GetMapping("")
     public String getAll(Model model) {
-        model.addAttribute("entities", cardServer.findAll());
+        model.addAttribute("entities", cardServer.findAllCard());
         model.addAttribute("newEntity", new CardModel());
         return "adminPg0";
     }
@@ -27,28 +27,28 @@ public class CardController {
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute("newEntity") CardModel card, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("entities", cardServer.findAll());
+            model.addAttribute("entities", cardServer.findAllCard());
             return "adminPg0";
         }
-        cardServer.add(card);
+        cardServer.addCard(card);
         return "redirect:/card";
     }
 
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute("existingEntity") CardModel card, BindingResult result) {
-        cardServer.update(card);
+        cardServer.updateCard(card);
         return "redirect:/card";
     }
 
     @PostMapping("/delete")
     public String delete(@RequestParam Long id) {
-        cardServer.delete(id);
+        cardServer.deleteCard(id);
         return "redirect:/card";
     }
 
     @PostMapping("/{id}")
     public String getId(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("existingEntity", cardServer.find(id));
+        model.addAttribute("existingEntity", cardServer.findCard(id));
         model.addAttribute("newEntity", new CardModel());
         return "adminPg0";
     }

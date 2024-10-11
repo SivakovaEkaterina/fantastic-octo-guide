@@ -1,10 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Title</title>
 </head>
 <body>
-$END$
+
+<form action="/passport/add" method="post" th:object="${passport}">
+  <input type="text" name="seriesPassport" placeholder="Серия паспорта" th:field="*{seriesPassport}" required>
+  <div th:if="${#fields.hasErrors('seriesPassport')}" th:errors="*{seriesPassport}">
+    Серия паспорта обязательна
+  </div>
+
+  <input type="text" name="numberPassport" placeholder="Номер паспорта" th:field="*{numberPassport}" required>
+  <div th:if="${#fields.hasErrors('numberPassport')}" th:errors="*{numberPassport}">
+    Номер паспорта обязательный
+  </div>
+
+  <input type="date" name="issueDatePassport" placeholder="Дата выдачи паспорта" th:field="*{issueDatePassport}" required>
+  <div th:if="${#fields.hasErrors('issueDatePassport')}" th:errors="*{issueDatePassport}">
+    Дата выдачи паспорта обязательна
+  </div>
+
+  <input type="text" name="issuedByPassport" placeholder="Кем выдан паспорт" th:field="*{issuedByPassport}" required>
+  <div th:if="${#fields.hasErrors('issuedByPassport')}" th:errors="*{issuedByPassport}">
+    Кем выдан паспорт обязательный
+  </div>
+
+  <input type="text" name="codeDivisionPassport" placeholder="Код подразделения" th:field="*{codeDivisionPassport}" required>
+  <div th:if="${#fields.hasErrors('codeDivisionPassport')}" th:errors="*{codeDivisionPassport}">
+    Код подразделения обязательный
+  </div>
+
+  <input type="text" name="firstNamePassport" placeholder="Имя" th:field="*{firstNamePassport}" required>
+  <div th:if="${#fields.hasErrors('firstNamePassport')}" th:errors="*{firstNamePassport}">
+    Имя обязательное
+  </div>
+
+  <input type="text" name="secondNamePassport" placeholder="Фамилия" th:field="*{secondNamePassport}" required>
+  <div th:if="${#fields.hasErrors('secondNamePassport')}" th:errors="*{secondNamePassport}">
+    Фамилия обязательная
+  </div>
+
+  <input type="text" name="thirdNamePassport" placeholder="Отчество" th:field="*{thirdNamePassport}" required>
+  <div th:if="${#fields.hasErrors('thirdNamePassport')}" th:errors="*{thirdNamePassport}">
+    Отчество обязательное
+  </div>
+
+  <button type="submit" formmethod="post"> Добавить паспорт </button>
+</form>
+
+<h2>Все паспорта: </h2>
+<ul>
+  <th:block th:each="onepassport : ${models}">
+    <li>
+      <span th:text="${onepassport.seriesPassport}"></span> -
+      <span th:text="${onepassport.numberPassport}"></span> -
+      <span th:text="${onepassport.issueDatePassport}"></span> -
+      <span th:text="${onepassport.issuedByPassport}"></span> -
+      <span th:text="${onepassport.codeDivisionPassport}"></span> -
+      <span th:text="${onepassport.firstNamePassport}"></span> -
+      <span th:text="${onepassport.secondNamePassport}"></span> -
+      <span th:text="${onepassport.thirdNamePassport}"></span>
+      <form action="/passport/update" method="post">
+        <input type="hidden" name="id" th:value="${onepassport.id}">
+        <input type="text" name="seriesPassport" placeholder="Серия паспорта" th:value="${onepassport.seriesPassport}" required>
+        <input type="text" name="numberPassport" placeholder="Номер паспорта" th:value="${onepassport.numberPassport}" required>
+        <input type="date" name="issueDatePassport" placeholder="Дата выдачи паспорта" th:value="${onepassport.issueDatePassport}" required>
+        <input type="text" name="issuedByPassport" placeholder="Кем выдан паспорт" th:value="${onepassport.issuedByPassport}" required>
+        <input type="text" name="codeDivisionPassport" placeholder="Код подразделения" th:value="${onepassport.codeDivisionPassport}" required>
+        <input type="text" name="firstNamePassport" placeholder="Имя" th:value="${onepassport.firstNamePassport}" required>
+        <input type="text" name="secondNamePassport" placeholder="Фамилия" th:value="${onepassport.secondNamePassport}" required>
+        <input type="text" name="thirdNamePassport" placeholder="Отчество" th:value="${onepassport.thirdNamePassport}" required>
+        <button type="submit" formmethod="post"> Изменить </button>
+      </form>
+      <form action="/passport/delete" method="post" style="display:inline;">
+        <input type="hidden" name="id" th:value="${onepassport.id}">
+        <button type="submit" formmethod="post">Удалить</button>
+      </form>
+    </li>
+  </th:block>
+</ul>
 </body>
 </html>

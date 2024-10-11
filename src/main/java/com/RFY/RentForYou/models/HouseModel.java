@@ -3,7 +3,6 @@ package com.RFY.RentForYou.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 

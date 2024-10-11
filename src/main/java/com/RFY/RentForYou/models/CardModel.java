@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "cards")
-public class CardModel {
+public class CardModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long IdCard;

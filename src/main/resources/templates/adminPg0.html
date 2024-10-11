@@ -5,11 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Admin Page</h1>
 
-<form action="/city/add" method="post" th:object="${newEntity}">
-    <input type="text" name="NameCity" placeholder="Название города" th:field="*{NameCity}" required>
-    <div th:if="${#fields.hasErrors('NameCity')}" th:errors="*{NameCity}">
+<form action="/city/add" method="post" th:object="${city}">
+    <input type="text" name="nameCity" placeholder="Название города" th:field="*{nameCity}" required>
+    <div th:if="${#fields.hasErrors('nameCity')}" th:errors="*{nameCity}">
         Имя не менее 3 символов
     </div>
     <button type="submit" formmethod="post"> Добавить город </button>
@@ -17,25 +16,20 @@
 
 <h2>Все города: </h2>
 <ul>
-    <th:block th:each="city : ${entities}">
+    <th:block th:each="onecity : ${models}">
         <li>
-            <span th:text="${city.NameCity}"></span>
-            <form action="/city/update" method="post" th:object="${existingEntity}">
-                <input type="hidden" name="IdCity" th:value="${existingEntity.IdCity}">
-                <input type="text" name="NameCity" placeholder="Название города" th:field="*{NameCity}" required>
-                <div th:if="${#fields.hasErrors('NameCity')}" th:errors="*{NameCity}">
-                    Имя не менее 3 символов
-                </div>
+            <span th:text="${onecity.nameCity}"></span>
+            <form action="/city/update" method="post">
+                <input type="hidden" name="id" th:value="${onecity.id}">
+                <input type="text" name="nameCity" placeholder="Название города" th:value="${onecity.nameCity}" required>
                 <button type="submit" formmethod="post"> Изменить </button>
             </form>
             <form action="/city/delete" method="post" style="display:inline;">
-                <input type="hidden" name="IdCity" th:value="${city.IdCity}">
+                <input type="hidden" name="id" th:value="${onecity.id}">
                 <button type="submit" formmethod="post">Удалить</button>
             </form>
         </li>
     </th:block>
 </ul>
-
-</form>
 </body>
 </html>

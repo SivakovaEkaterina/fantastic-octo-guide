@@ -24,11 +24,11 @@ class RentForYouApplicationTests {
 	@Test
 	@Transactional
 	public void testAddCity() {
-		CityModel city = new CityModel(1L, "Санкт-Петербург");
-		cityServer.add(city);
-		CityModel foundCity = cityServer.find(1L);
+		CityModel city = new CityModel(2L, "Санкт-Петербург");
+		cityServer.addCity(city);
+		CityModel foundCity = cityServer.findCity(2L);
 		assertNotNull(foundCity);
-		assertEquals(city.getNameCity(), foundCity.getNameCity());
+		assertEquals("Санкт-Петербург", foundCity.getNameCity());
 	}
 
 
