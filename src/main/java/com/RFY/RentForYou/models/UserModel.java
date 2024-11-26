@@ -8,8 +8,78 @@ import jakarta.validation.constraints.Size;
 
 import java.util.Set;
 
-@Entity
 @Table(name = "user_in")
+@Entity
+public class UserModel {
+    @Id
+    @GeneratedValue
+    private Long idUser;
+
+    private String username;
+    private String password;
+    private boolean active;
+
+    @ElementCollection(targetClass = RoleEnum.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<RoleEnum> roles;
+
+    public UserModel() {
+
+    }
+
+    public UserModel(String username, String password, boolean active, Set<RoleEnum> roles) {
+        this.username = username;
+        this.password = password;
+        this.active = active;
+        this.roles = roles;
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Set<RoleEnum> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleEnum> roles) {
+        this.roles = roles;
+    }
+}
+
+
+
+
+/*
 public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,10 +105,12 @@ public class UserModel {
     @OneToOne
     @JoinColumn(name = "passport_id", referencedColumnName = "IdPassport")
     private PassportModel IdPassport;
-    /*@Nullable
+    */
+/*@Nullable
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "IdRole")
-    private RoleModel IdRole;*/
+    private RoleModel IdRole;*//*
+
     @Nullable
     @Pattern(regexp = "\\d+", message = "Поле должно содержать только цифры")
     private String PhoneNumberUser;
@@ -183,3 +255,4 @@ public class UserModel {
         this.roles = roles;
     }
 }
+*/

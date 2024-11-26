@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Управление отзывами</title>
+</head>
+<body>
+<div th:insert="block/header"></div>
+<h1>Добавить отзыв</h1>
+<form action="/feedback/add" method="post" th:object="${feedback}">
+  <input type="text" name="nameFeedback" placeholder="Текст отзыва" th:field="*{nameFeedback}" required>
+  <button type="submit">Добавить отзыв</button>
+</form>
+
+<h2>Все отзывы:</h2>
+<ul>
+  <th:block th:each="feedback : ${feedbacks}">
+    <li>
+      <span th:text="${feedback.nameFeedback}"></span>
+      <form action="/feedback/update" method="post">
+        <input type="hidden" name="id" th:value="${feedback.id}">
+        <input type="text" name="nameFeedback" th:value="${feedback.nameFeedback}" required>
+        <button type="submit">Изменить</button>
+      </form>
+      <form action="/feedback/delete" method="post" style="display:inline;">
+        <input type="hidden" name="id" th:value="${feedback.id}">
+        <button type="submit">Удалить</button>
+      </form>
+    </li>
+  </th:block>
+</ul>
+</body>
+</html>

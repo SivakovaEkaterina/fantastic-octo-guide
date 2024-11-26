@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Управление ролями</title>
+</head>
+<body>
+<div th:insert="block/header"></div>
+<form action="/role/add" method="post" th:object="${role}">
+  <input type="text" name="nameRole" placeholder="Название роли" th:field="*{nameRole}" required>
+  <div th:if="${#fields.hasErrors('nameRole')}" th:errors="*{nameRole}">
+    Имя не менее 3 символов
+  </div>
+  <button type="submit" formmethod="post"> Добавить роль </button>
+</form>
+
+<h2>Все роли: </h2>
+<ul>
+  <th:block th:each="onerole : ${models}">
+    <li>
+      <span th:text="${onerole.nameRole}"></span>
+      <form action="/role/update" method="post">
+        <input type="hidden" name="id" th:value="${onerole.id}">
+        <input type="text" name="nameRole" placeholder="Название роли" th:value="${onerole.nameRole}" required>
+        <button type="submit" formmethod="post"> Изменить </button>
+      </form>
+      <form action="/role/delete" method="post" style="display:inline;">
+        <input type="hidden" name="id" th:value="${onerole.id}">
+        <button type="submit" formmethod="post">Удалить</button>
+      </form>
+    </li>
+  </th:block>
+</ul>
+</body>
+</html>

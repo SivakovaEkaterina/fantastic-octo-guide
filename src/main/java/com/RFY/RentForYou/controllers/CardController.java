@@ -19,23 +19,27 @@ public class CardController {
 
     @GetMapping("")
     public String getAll(Model model) {
-        model.addAttribute("entities", cardServer.findAllCard());
-        model.addAttribute("newEntity", new CardModel());
-        return "adminPg0";
+        model.addAttribute("cards", cardServer.findAllCard());
+        model.addAttribute("card", new CardModel());
+        return "cardPg"; // Название вашей HTML страницы
     }
 
     @PostMapping("/add")
-    public String add(@Valid @ModelAttribute("newEntity") CardModel card, BindingResult result, Model model) {
+    public String add(@Valid @ModelAttribute("card") CardModel card,
+                      BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("entities", cardServer.findAllCard());
-            return "adminPg0";
+            model.addAttribute("cards", cardServer.findAllCard());
+            return "cardPg"; // Название вашей HTML страницы
         }
         cardServer.addCard(card);
         return "redirect:/card";
     }
 
     @PostMapping("/update")
-    public String update(@Valid @ModelAttribute("existingEntity") CardModel card, BindingResult result) {
+    public String update(@Valid @ModelAttribute("card") CardModel card, BindingResult result) {
+        if (result.hasErrors()) {
+            return "cardPg"; // Название вашей HTML страницы
+        }
         cardServer.updateCard(card);
         return "redirect:/card";
     }
@@ -48,8 +52,7 @@ public class CardController {
 
     @PostMapping("/{id}")
     public String getId(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("existingEntity", cardServer.findCard(id));
-        model.addAttribute("newEntity", new CardModel());
-        return "adminPg0";
+        model.addAttribute("card", cardServer.findCard(id));
+        return "cardPg"; // Название вашей HTML страницы
     }
 }

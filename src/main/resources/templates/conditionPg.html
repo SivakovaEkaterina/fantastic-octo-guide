@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Управление условиями</title>
+</head>
+<body>
+<div th:insert="block/header"></div>
+<h1>Добавить условие</h1>
+<form action="/condition/add" method="post" th:object="${condition}">
+  <input type="text" name="NameCondition" placeholder="Название условия" th:field="*{NameCondition}" required>
+  <button type="submit">Добавить условие</button>
+</form>
+
+<h2>Все условия:</h2>
+<ul>
+  <th:block th:each="condition : ${conditions}">
+    <li>
+      <span th:text="${condition.NameCondition}"></span>
+      <form action="/condition/update" method="post">
+        <input type="hidden" name="id" th:value="${condition.id}">
+        <input type="text" name="NameCondition" th:value="${condition.NameCondition}" required>
+        <button type="submit">Изменить</button>
+      </form>
+      <form action="/condition/delete" method="post" style="display:inline;">
+        <input type="hidden" name="id" th:value="${condition.id}">
+        <button type="submit">Удалить</button>
+      </form>
+    </li>
+  </th:block>
+</ul>
+</body>
+</html>

@@ -16,7 +16,7 @@ import java.util.Collections;
 @Controller
 public class RegistrationController {
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -25,17 +25,19 @@ public class RegistrationController {
     public String registrationView(){
         return "regis";
     }
+
     @PostMapping("/registration")
     public String registrationUser(UserModel user, Model model){
-        if (repository.existsByUsername(user.getNickNameUser())){
+        if (userRepository.existsByUsername(user.getUsername())){
             model.addAttribute("message", "Пользователь уже существует");
             return "regis";
         }
         user.setActive(true);
         user.setRoles(Collections.singleton(RoleEnum.User));
-        user.setPasswordUser(passwordEncoder.encode(user.getPasswordUser()));
-        repository.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
         return "redirect:/login";
-
     }
+
+
 }

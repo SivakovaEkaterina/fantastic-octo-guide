@@ -10,7 +10,7 @@ public class FeedbackModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long IdFeedback;
     @Column(name = "feedback", nullable = true)
-    @Size(min = 3, message = "Имя не менее 3 символов")
+    @Size(min = 3, message = "Комментарий не менее 3-х символов")
     private String NameFeedback;
     @ManyToOne
     @JoinColumn(name = "card_id", referencedColumnName = "IdCard")

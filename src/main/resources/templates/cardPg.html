@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Управление карточками</title>
+</head>
+<body>
+<div th:insert="block/header"></div>
+<h1>Добавить карточку</h1>
+<form action="/card/add" method="post" th:object="${card}">
+  <input type="text" name="NameCard" placeholder="Название карточки" th:field="*{NameCard}" required>
+  <textarea name="DescriptionCard" placeholder="Описание" th:field="*{DescriptionCard}"></textarea>
+  <input type="text" name="PriceCard" placeholder="Цена" th:field="*{PriceCard}" required>
+  <button type="submit">Добавить карточку</button>
+</form>
+
+<h2>Все карточки:</h2>
+<ul>
+  <th:block th:each="card : ${cards}">
+    <li>
+      <span th:text="${card.NameCard}"></span>
+      <form action="/card/update" method="post">
+        <input type="hidden" name="id" th:value="${card.id}">
+        <input type="text" name="NameCard" th:value="${card.NameCard}" required>
+        <input type="text" name="PriceCard" th:value="${card.PriceCard}" required>
+        <button type="submit">Изменить</button>
+      </form>
+      <form action="/card/delete" method="post" style="display:inline;">
+        <input type="hidden" name="id" th:value="${card.id}">
+        <button type="submit">Удалить</button>
+      </form>
+    </li>
+  </th:block>
+</ul>
+</body>
+</html>

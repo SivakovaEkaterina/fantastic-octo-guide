@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Управление пользователями</title>
+</head>
+<body>
+<div th:insert="block/header"></div>
+<h1>Добавить пользователя</h1>
+<form action="/user/add" method="post" th:object="${userInfo}">
+  <input type="text" name="nickNameUser" placeholder="Никнейм" th:field="*{nickNameUser}" required>
+  <input type="text" name="firstNameUser" placeholder="Имя" th:field="*{firstNameUser}" required>
+  <input type="text" name="secondNameUser" placeholder="Фамилия" th:field="*{secondNameUser}" required>
+  <input type="text" name="thirdNameUser" placeholder="Отчество" th:field="*{thirdNameUser}" required>
+  <input type="text" name="phoneNumberUser" placeholder="Номер телефона" th:field="*{phoneNumberUser}" required>
+  <input type="email" name="emailUser" placeholder="Email" th:field="*{emailUser}" required>
+  <input type="hidden" name="user.id" th:value="${user.id}">
+  <button type="submit">Добавить пользователя</button>
+</form>
+
+<h2>Все пользователи:</h2>
+<ul>
+  <th:block th:each="user : ${userInfos}">
+    <li>
+      <span th:text="'Ник: ' + ${user.nickNameUser} + ' Полное имя ' + ${user.firstNameUser} + ' ' + ${user.secondNameUser} + ' ' + ${user.thirdNameUser} + ' ' + ${user.phoneNumberUser} + ' ' + ${user.emailUser}"></span>
+      <form action="/user/update" method="post">
+        <input type="hidden" name="id" th:value="${user.id}">
+        <input type="text" name="nickNameUser" placeholder="Никнейм" th:value="${user.nickNameUser}" required>
+        <input type="text" name="firstNameUser" placeholder="Имя" th:value="${user.firstNameUser}" required>
+        <input type="text" name="secondNameUser" placeholder="Фамилия" th:value="${user.secondNameUser}" required>
+        <input type="text" name="thirdNameUser" placeholder="Отчество" th:value="${user.thirdNameUser}" required>
+        <input type="text" name="phoneNumberUser" placeholder="Номер телефона" th:value="${user.phoneNumberUser}" required>
+        <input type="email" name="emailUser" placeholder="Email" th:value="${user.emailUser}" required>
+        <button type="submit">Изменить</button>
+      </form>
+      <form action="/user/delete" method="post" style="display:inline;">
+        <input type="hidden" name="id" th:value="${user.id}">
+        <button type="submit">Удалить</button>
+      </form>
+    </li>
+  </th:block>
+</ul>
+</body>
+</html>

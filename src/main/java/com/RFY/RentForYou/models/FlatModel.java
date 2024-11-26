@@ -2,6 +2,7 @@ package com.RFY.RentForYou.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -24,7 +25,7 @@ public class FlatModel{
     private String HouseNumberFlat;
 
     @Column(name = "floor_number", nullable = false)
-    @Pattern(regexp = "[0-9]+", message = "Неправильный формат этажа")
+    @Min(value = 0, message = "этаж не может быть отрицательным")
     private Integer FloorNumberFlat;
 
     @Column(name = "apartment_number", nullable = false)
@@ -35,7 +36,7 @@ public class FlatModel{
     private BigDecimal AreaFlat;
 
     @Column(name = "rooms_count", nullable = true)
-    @Pattern(regexp = "[0-9]+", message = "Неправильный формат количества комнат")
+    @Min(value = 1, message = "комнаты не могут быть отрицательными")
     private Integer RoomsCountFlat;
 
     @ManyToOne
@@ -87,14 +88,6 @@ public class FlatModel{
         HouseNumberFlat = houseNumberFlat;
     }
 
-    public @Pattern(regexp = "[0-9]+", message = "Неправильный формат этажа") Integer getFloorNumberFlat() {
-        return FloorNumberFlat;
-    }
-
-    public void setFloorNumberFlat(@Pattern(regexp = "[0-9]+", message = "Неправильный формат этажа") Integer floorNumberFlat) {
-        FloorNumberFlat = floorNumberFlat;
-    }
-
     public String getApartmentNumberFlat() {
         return ApartmentNumberFlat;
     }
@@ -111,11 +104,19 @@ public class FlatModel{
         AreaFlat = areaFlat;
     }
 
-    public @Pattern(regexp = "[0-9]+", message = "Неправильный формат количества комнат") Integer getRoomsCountFlat() {
+    public @Min(value = 0, message = "этаж не может быть отрицательным") Integer getFloorNumberFlat() {
+        return FloorNumberFlat;
+    }
+
+    public void setFloorNumberFlat(@Min(value = 0, message = "этаж не может быть отрицательным") Integer floorNumberFlat) {
+        FloorNumberFlat = floorNumberFlat;
+    }
+
+    public @Min(value = 1, message = "комнаты не могут быть отрицательными") Integer getRoomsCountFlat() {
         return RoomsCountFlat;
     }
 
-    public void setRoomsCountFlat(@Pattern(regexp = "[0-9]+", message = "Неправильный формат количества комнат") Integer roomsCountFlat) {
+    public void setRoomsCountFlat(@Min(value = 1, message = "комнаты не могут быть отрицательными") Integer roomsCountFlat) {
         RoomsCountFlat = roomsCountFlat;
     }
 

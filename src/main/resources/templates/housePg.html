@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Управление домами</title>
+</head>
+<body>
+<div th:insert="block/header"></div>
+<h1>Добавить дом</h1>
+<form action="/house/add" method="post" th:object="${house}">
+  <input type="text" name="nameHouse" placeholder="Название дома" th:field="*{nameHouse}" required>
+  <select name="cityId" th:field="*{CityIdHouse}" required>
+    <option value="" disabled selected>Выберите город</option>
+    <th:block th:each="city : ${cities}">
+      <option th:value="${city.id}" th:text="${city.nameCity}"></option>
+    </th:block>
+  </select>
+  <input type="text" name="streetHouse" placeholder="Улица" th:field="*{streetHouse}" required>
+  <input type="text" name="houseNumberHouse" placeholder="Номер дома" th:field="*{houseNumberHouse}" required>
+  <input type="text" name="areaHouse" placeholder="Площадь" th:field="*{areaHouse}" required>
+  <input type="text" name="constructionYearHouse" placeholder="Год постройки" th:field="*{constructionYearHouse}">
+  <input type="text" name="floorsCountHouse" placeholder="Количество этажей" th:field="*{floorsCountHouse}">
+  <input type="text" name="apartmentsCountHouse" placeholder="Количество квартир" th:field="*{apartmentsCountHouse}">
+  <button type="submit">Добавить дом</button>
+</form>
+
+<h2>Все дома:</h2>
+<ul>
+  <th:block th:each="house : ${houses}">
+    <li>
+      <span>
+        Название: <span th:text="${house.nameHouse}"></span>,
+        Город: <span th:text="${house.cityIdHouse}"></span>,
+        Улица: <span th:text="${house.streetHouse}"></span>,
+        Номер дома: <span th:text="${house.houseNumberHouse}"></span>,
+        Площадь: <span th:text="${house.areaHouse}"></span>,
+        Год постройки: <span th:text="${house.constructionYearHouse}"></span>,
+        Этажи: <span th:text="${house.floorsCountHouse}"></span>,
+        Квартиры: <span th:text="${house.apartmentsCountHouse}"></span>
+      </span>
+      <form action="/house/update" method="post" th:object="${house}">
+        <input type="hidden" name="id" th:value="${house.id}">
+        <input type="text" name="nameHouse" placeholder="Название дома" th:field="*{nameHouse}" required>
+
+        <select name="cityId" th:field="*{cityIdHouse}" required>
+          <option value="" disabled>Выберите город</option>
+          <th:block th:each="city : ${cities}">
+            <option th:value="${city.id}" th:text="${city.nameCity}" th:selected="${city.id == house.cityIdHouse}"></option>
+          </th:block>
+        </select>
+
+        <input type="text" name="streetHouse" placeholder="Улица" th:field="*{streetHouse}" required>
+        <input type="text" name="houseNumberHouse" placeholder="Номер дома" th:field="*{houseNumberHouse}" required>
+        <input type="text" name="areaHouse" placeholder="Площадь" th:field="*{areaHouse}" required>
+        <input type="number" name="constructionYearHouse" placeholder="Год постройки" th:field="*{constructionYearHouse}" required min="1800">
+        <input type="text" name="floorsCountHouse" placeholder="Количество этажей" th:field="*{floorsCountHouse}">
+        <input type="text" name="apartmentsCountHouse" placeholder="Количество квартир" th:field="*{apartmentsCountHouse}">
+
+        <button type="submit">Изменить</button>
+      </form>
+      <form action="/house/delete" method="post" style="display:inline;">
+        <input type="hidden" name="id" th:value="${house.id}">
+        <button type="submit">Удалить</button>
+      </form>
+    </li>
+  </th:block>
+</ul>
+</body>
+</html>

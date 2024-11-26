@@ -1,73 +1,59 @@
-/*
 package com.RFY.RentForYou.controllers;
 
-import com.RFY.RentForYou.service.PassportServerImpl;
-import com.RFY.RentForYou.service.PictureServerImpl;
-import com.RFY.RentForYou.service.RoleServerImpl;
+import com.RFY.RentForYou.models.RoleEnum;
+import com.RFY.RentForYou.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.RFY.RentForYou.models.UserModel;
-import com.RFY.RentForYou.service.UserServerImpl;
-import jakarta.validation.Valid;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/admin")
+@PreAuthorize("hasAnyAuthority('Admin')")
 public class UserController {
-    private final UserServerImpl userServer;
     @Autowired
-    private RoleServerImpl roleService;
+    private UserRepository userRepository;
 
     @Autowired
-    private PictureServerImpl pictureService;
+    private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PassportServerImpl passportService;
-
-    public UserController(UserServerImpl userServer) {
-        this.userServer = userServer;
+    @GetMapping("/users")
+    public String userView(Model model) {
+        model.addAttribute("user_list", userRepository.findAll());
+        return "indexUser";
     }
 
-    @GetMapping("")
-    public String getAll(Model model) {
-        model.addAttribute("models", userServer.findAllUser ());
-        model.addAttribute("user", new UserModel());
-        return "userForm";
+    @GetMapping("/users/{id}")
+    public String detailView(@PathVariable Long id, Model model) {
+        UserModel user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Пользователя не существует:" + id));
+        model.addAttribute("user_object", user);
+        return "info";
     }
 
-    @PostMapping("/add")
-    public String add(@Valid @ModelAttribute("user") UserModel card,
-                      BindingResult result, Model model) {
-        model.addAttribute("roles", roleService.findAllRole());
-        model.addAttribute("pictures", pictureService.findAllPicture());
-        model.addAttribute("passports", passportService.findAllPassport());
-        if (result.hasErrors()) {
-            model.addAttribute("models", userServer.findAllUser ());
-            return "userForm";
+    @GetMapping("/users/{id}/update")
+    public String updateView(@PathVariable Long id, Model model) {
+        UserModel user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Пользователя не существует:" + id));
+        model.addAttribute("user_object", user);
+        model.addAttribute("roles", RoleEnum.values());
+        return "update";
+    }
+
+    @PostMapping("/users/{id}/update")
+    public String updateUser(@PathVariable Long id,
+                             @RequestParam String username,
+                             @RequestParam(name = "roles[]", required = false) String[] roles) {
+        UserModel user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Пользователя не существует:" + id));
+        user.setUsername(username);
+        user.getRoles().clear();
+        if (roles != null) {
+            for (String role : roles) {
+                user.getRoles().add(RoleEnum.valueOf(role));
+            }
         }
-        userServer.addUser (card);
-        return "redirect:/user";
-    }
-
-    @PostMapping("/update")
-    public String update(@Valid @ModelAttribute("user") UserModel card, BindingResult result) {
-        userServer.updateUser (card);
-        return "redirect:/user";
-    }
-
-    @PostMapping("/delete")
-    public String delete(@RequestParam Long id) {
-        userServer.deleteUser (id);
-        return "redirect:/user";
-    }
-
-    @PostMapping("/{id}")
-    public String getId(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("models", userServer.findUser (id));
-        model.addAttribute("user", new UserModel());
-        return "userForm";
+        userRepository.save(user);
+        return "redirect:/admin/users/" + id;
     }
 }
-*/

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Управление квартирами</title>
+</head>
+<body>
+<div th:insert="block/header"></div>
+<h1>Добавить квартиру</h1>
+<form action="/flat/add" method="post" th:object="${flat}">
+  <input type="text" name="nameFlat" placeholder="Название квартиры" th:field="*{nameFlat}" required>
+  <input type="text" name="flatNumberFlat" placeholder="Номер квартиры" th:field="*{flatNumberFlat}" required>
+  <input type="text" name="houseNumberFlat" placeholder="Номер дома" th:field="*{houseNumberFlat}" required>
+  <input type="text" name="floorNumberFlat" placeholder="Этаж" th:field="*{floorNumberFlat}" required>
+  <input type="text" name="apartmentNumberFlat" placeholder="Номер квартиры" th:field="*{apartmentNumberFlat}" required>
+  <input type="text" name="areaFlat" placeholder="Площадь" th:field="*{areaFlat}" required>
+  <input type="text" name="roomsCountFlat" placeholder="Количество комнат" th:field="*{roomsCountFlat}">
+  <button type="submit">Добавить квартиру</button>
+</form>
+
+<h2>Все квартиры:</h2>
+<ul>
+  <th:block th:each="flat : ${flats}">
+    <li>
+      <span th:text="${flat.nameFlat}"></span>
+      <form action="/flat/update" method="post">
+        <input type="hidden" name="id" th:value="${flat.id}">
+        <input type="text" name="nameFlat" th:value="${flat.nameFlat}" required>
+        <button type="submit">Изменить</button>
+      </form>
+      <form action="/flat/delete" method="post" style="display:inline;">
+        <input type="hidden" name="id" th:value="${flat.id}">
+        <button type="submit">Удалить</button>
+      </form>
+    </li>
+  </th:block>
+</ul>
+</body>
+</html>

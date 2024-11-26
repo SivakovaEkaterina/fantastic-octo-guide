@@ -2,6 +2,7 @@ package com.RFY.RentForYou.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 
 import java.math.BigDecimal;
@@ -30,15 +31,15 @@ public class HouseModel {
     private BigDecimal AreaHouse;
 
     @Column(name = "construction_year", nullable = true)
-    @Pattern(regexp = "[0-9]{4}", message = "Неправильный формат года постройки")
+    @Min(value = 1900, message = "год не может быть ранее 1900")
     private Integer ConstructionYearHouse;
 
     @Column(name = "floors_count", nullable = true)
-    @Pattern(regexp = "[0-9]+", message = "Неправильный формат количества этажей")
+    @Min(value = 0, message = "этаж не может быть отрицательным")
     private Integer FloorsCountHouse;
 
     @Column(name = "apartments_count", nullable = true)
-    @Pattern(regexp = "[0-9]+", message = "Неправильный формат количества квартир")
+    @Min(value = 0, message = "колличество комнат не может быть отрицательным")
     private Integer ApartmentsCountHouse;
 
     @ManyToOne
@@ -107,27 +108,27 @@ public class HouseModel {
         AreaHouse = areaHouse;
     }
 
-    public @Pattern(regexp = "[0-9]{4}", message = "Неправильный формат года постройки") Integer getConstructionYearHouse() {
+    public @Min(value = 1900, message = "год не может быть ранее 1900") Integer getConstructionYearHouse() {
         return ConstructionYearHouse;
     }
 
-    public void setConstructionYearHouse(@Pattern(regexp = "[0-9]{4}", message = "Неправильный формат года постройки") Integer constructionYearHouse) {
+    public void setConstructionYearHouse(@Min(value = 1900, message = "год не может быть ранее 1900") Integer constructionYearHouse) {
         ConstructionYearHouse = constructionYearHouse;
     }
 
-    public @Pattern(regexp = "[0-9]+", message = "Неправильный формат количества этажей") Integer getFloorsCountHouse() {
+    public @Min(value = 0, message = "этаж не может быть отрицательным") Integer getFloorsCountHouse() {
         return FloorsCountHouse;
     }
 
-    public void setFloorsCountHouse(@Pattern(regexp = "[0-9]+", message = "Неправильный формат количества этажей") Integer floorsCountHouse) {
+    public void setFloorsCountHouse(@Min(value = 0, message = "этаж не может быть отрицательным") Integer floorsCountHouse) {
         FloorsCountHouse = floorsCountHouse;
     }
 
-    public @Pattern(regexp = "[0-9]+", message = "Неправильный формат количества квартир") Integer getApartmentsCountHouse() {
+    public @Min(value = 0, message = "колличество комнат не может быть отрицательным") Integer getApartmentsCountHouse() {
         return ApartmentsCountHouse;
     }
 
-    public void setApartmentsCountHouse(@Pattern(regexp = "[0-9]+", message = "Неправильный формат количества квартир") Integer apartmentsCountHouse) {
+    public void setApartmentsCountHouse(@Min(value = 0, message = "колличество комнат не может быть отрицательным") Integer apartmentsCountHouse) {
         ApartmentsCountHouse = apartmentsCountHouse;
     }
 
