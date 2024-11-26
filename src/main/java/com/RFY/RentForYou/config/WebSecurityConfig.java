@@ -12,12 +12,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
@@ -68,7 +70,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(authorize ->
                         authorize.requestMatchers("/login", "/registration").permitAll()
                                 .anyRequest().authenticated())
-                .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/students/all").permitAll())
+                .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/city").permitAll())
                 .logout(logout -> logout.permitAll())
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable());
