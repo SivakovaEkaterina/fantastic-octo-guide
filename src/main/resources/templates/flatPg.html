@@ -23,9 +23,21 @@
   <th:block th:each="flat : ${flats}">
     <li>
       <span th:text="${flat.nameFlat}"></span>
-      <form action="/flat/update" method="post">
+      <span th:text="${flat.flatNumberFlat}"></span>
+      <span th:text="${flat.houseNumberFlat}"></span>
+      <span th:text="${flat.floorNumberFlat}"></span>
+      <span th:text="${flat.apartmentNumberFlat}"></span>
+      <span th:text="${flat.areaFlat}"></span>
+      <span th:text="${flat.roomsCountFlat}"></span><br>
+      <form action="/flat/update" method="post" style="display:inline;">
         <input type="hidden" name="id" th:value="${flat.id}">
-        <input type="text" name="nameFlat" th:value="${flat.nameFlat}" required>
+        <input type="text" name="nameFlat" th:value="${flat.nameFlat}" required placeholder="Название квартиры">
+        <input type="text" name="flatNumberFlat" th:value="${flat.flatNumberFlat}" required placeholder="Номер квартиры">
+        <input type="text" name="houseNumberFlat" th:value="${flat.houseNumberFlat}" required placeholder="Номер дома">
+        <input type="text" name="floorNumberFlat" th:value="${flat.floorNumberFlat}" required placeholder="Этаж">
+        <input type="text" name="apartmentNumberFlat" th:value="${flat.apartmentNumberFlat}" required placeholder="Номер квартиры">
+        <input type="text" name="areaFlat" th:value="${flat.areaFlat}" required placeholder="Площадь">
+        <input type="text" name="roomsCountFlat" th:value="${flat.roomsCountFlat}" placeholder="Количество комнат">
         <button type="submit">Изменить</button>
       </form>
       <form action="/flat/delete" method="post" style="display:inline;">
