@@ -1,17 +1,22 @@
 package com.RFY.RentForYou.controllers;
 
 import com.RFY.RentForYou.models.CityModel;
+import com.RFY.RentForYou.models.FlatModel;
 import com.RFY.RentForYou.models.HouseModel;
 import com.RFY.RentForYou.service.CityServer;
 import com.RFY.RentForYou.service.HouseServer;
+import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/house")
+@PreAuthorize("hasAnyAuthority('User')")
 public class HouseController {
     private final HouseServer houseServer;
     private final CityServer cityService; // Сервис для городов
@@ -34,7 +39,12 @@ public class HouseController {
     }
 
     @PostMapping("/add")
-    public String addHouse(@ModelAttribute HouseModel houseModel) {
+    public String addHouse(@Valid @ModelAttribute HouseModel houseModel, BindingResult result, Model model) {
+        if (result.hasErrors()){
+            model.addAttribute("houses", houseServer.findAllHouses());
+            model.addAttribute("house", new HouseModel());
+            return "housePg";
+        }
         houseServer.addHouse(houseModel);
         return "redirect:/house";
     }

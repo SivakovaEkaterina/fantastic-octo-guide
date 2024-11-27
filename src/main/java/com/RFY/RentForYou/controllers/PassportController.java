@@ -2,6 +2,7 @@ package com.RFY.RentForYou.controllers;
 
 import jakarta.validation.Valid;
 import com.RFY.RentForYou.models.PassportModel;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +11,7 @@ import com.RFY.RentForYou.service.PassportServerImpl;
 
 @Controller
 @RequestMapping("/passport")
+@PreAuthorize("hasAnyAuthority('Manager')")
 public class PassportController {
     private final PassportServerImpl passportServer;
 

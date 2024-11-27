@@ -3,6 +3,7 @@ package com.RFY.RentForYou.controllers;
 import com.RFY.RentForYou.models.ConditionModel;
 import com.RFY.RentForYou.service.ConditionServerImpl;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/condition")
+@PreAuthorize("hasAnyAuthority('Admin')")
 public class ConditionController {
     private final ConditionServerImpl conditionServer;
 

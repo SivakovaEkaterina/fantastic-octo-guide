@@ -11,6 +11,21 @@
   <input type="text" name="NameCard" placeholder="Название карточки" th:field="*{NameCard}" required>
   <textarea name="DescriptionCard" placeholder="Описание" th:field="*{DescriptionCard}"></textarea>
   <input type="text" name="PriceCard" placeholder="Цена" th:field="*{PriceCard}" required>
+
+  <select name="flatCard" th:field="*{FlatCard}">
+    <option value=""  selected>Выберите квартиру</option>
+    <th:block th:each="flat : ${flats}">
+      <option th:value="${flat.id}" th:text="${flat.NameFlat}"></option>
+    </th:block>
+  </select>
+
+  <select name="houseCard" th:field="*{HouseCard}">
+    <option value=""  selected>Выберите дом</option>
+    <th:block th:each="house : ${houses}">
+      <option th:value="${house.id}" th:text="${house.NameHouse}"></option>
+    </th:block>
+  </select>
+
   <button type="submit">Добавить карточку</button>
 </form>
 
@@ -18,11 +33,31 @@
 <ul>
   <th:block th:each="card : ${cards}">
     <li>
-      <span th:text="${card.NameCard}"></span>
-      <form action="/card/update" method="post">
+      <span th:text="'Название: ' + ${card.NameCard}"></span>
+      <span th:text="'Цена: ' + ${card.PriceCard}"></span>
+      <span th:text="'Квартира: '+ ${card.FlatCard}"></span>
+      <span th:text="'Дом: '+ ${card.HouseCard}"></span>
+      <span th:text="'Описание: '+ ${card.DescriptionCard}"></span>
+      <form action="/card/update" method="post" th:object="${card}">
         <input type="hidden" name="id" th:value="${card.id}">
         <input type="text" name="NameCard" th:value="${card.NameCard}" required>
+        <textarea name="DescriptionCard" placeholder="Описание" th:field="*{DescriptionCard}"></textarea>
         <input type="text" name="PriceCard" th:value="${card.PriceCard}" required>
+
+        <select name="flatCard" th:field="*{FlatCard}" >
+          <option value="" selected>Выберите квартиру</option>
+          <th:block th:each="flat : ${flats}">
+            <option th:value="${flat.id}" th:text="${flat.NameFlat}" th:selected="${flat.id == card.FlatCard}"></option>
+          </th:block>
+        </select>
+
+        <select name="houseCard" th:field="*{HouseCard}">
+          <option value=""  selected>Выберите дом</option>
+          <th:block th:each="house : ${houses}">
+            <option th:value="${house.id}" th:text="${house.NameHouse}" th:selected="${house.id == card.HouseCard}"></option>
+          </th:block>
+        </select>
+
         <button type="submit">Изменить</button>
       </form>
       <form action="/card/delete" method="post" style="display:inline;">

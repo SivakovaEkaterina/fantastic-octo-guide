@@ -3,6 +3,7 @@ package com.RFY.RentForYou.controllers;
 import com.RFY.RentForYou.models.CityModel;
 import com.RFY.RentForYou.service.CityServerImpl;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/city")
+@PreAuthorize("hasAnyAuthority('Admin')")
 public class CityController {
     private final CityServerImpl cityServer;
 

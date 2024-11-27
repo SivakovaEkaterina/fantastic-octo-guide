@@ -2,12 +2,16 @@ package com.RFY.RentForYou.controllers;
 
 import com.RFY.RentForYou.models.FlatModel;
 import com.RFY.RentForYou.service.FlatServer;
+import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/flat")
+@PreAuthorize("hasAnyAuthority('User')")
 public class FlatController {
     private final FlatServer flatService;
 
@@ -19,11 +23,16 @@ public class FlatController {
     public String getAllFlats(Model model) {
         model.addAttribute("flats", flatService.findAllFlats());
         model.addAttribute("flat", new FlatModel());
-        return "flatPg"; // имя вашего HTML-шаблона
+        return "flatPg";
     }
 
     @PostMapping("/add")
-    public String addFlat(@ModelAttribute FlatModel flatModel) {
+    public String addFlat(@Valid  @ModelAttribute FlatModel flatModel, BindingResult result, Model model) {
+        if (result.hasErrors()){
+            model.addAttribute("flats", flatService.findAllFlats());
+            model.addAttribute("flat", new FlatModel());
+            return "flatPg";
+        }
         flatService.addFlat(flatModel);
         return "redirect:/flat";
     }

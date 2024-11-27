@@ -2,12 +2,14 @@ package com.RFY.RentForYou.controllers;
 
 import com.RFY.RentForYou.models.FeedbackModel;
 import com.RFY.RentForYou.service.FeedbackServer;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/feedback")
+@PreAuthorize("hasAnyAuthority('Manager')")
 public class FeedbackController {
     private final FeedbackServer feedbackService;
 

@@ -28,9 +28,6 @@ public class FlatModel{
     @Min(value = 0, message = "этаж не может быть отрицательным")
     private Integer FloorNumberFlat;
 
-    @Column(name = "apartment_number", nullable = false)
-    private String ApartmentNumberFlat;
-
     @Column(name = "area", nullable = false)
     @Digits(integer = 10, fraction = 2, message = "Неправильный формат площади")
     private BigDecimal AreaFlat;
@@ -44,13 +41,12 @@ public class FlatModel{
     private UserModel OwnerIdFlat;
 
     public FlatModel(){}
-    public FlatModel(Long idFlat, String nameFlat, String flatNumberFlat, String houseNumberFlat, Integer floorNumberFlat, String apartmentNumberFlat, BigDecimal areaFlat, Integer roomsCountFlat, UserModel ownerIdFlat) {
+    public FlatModel(Long idFlat, String nameFlat, String flatNumberFlat, String houseNumberFlat, Integer floorNumberFlat, BigDecimal areaFlat, Integer roomsCountFlat, UserModel ownerIdFlat) {
         IdFlat = idFlat;
         NameFlat = nameFlat;
         FlatNumberFlat = flatNumberFlat;
         HouseNumberFlat = houseNumberFlat;
         FloorNumberFlat = floorNumberFlat;
-        ApartmentNumberFlat = apartmentNumberFlat;
         AreaFlat = areaFlat;
         RoomsCountFlat = roomsCountFlat;
         OwnerIdFlat = ownerIdFlat;
@@ -86,14 +82,6 @@ public class FlatModel{
 
     public void setHouseNumberFlat(String houseNumberFlat) {
         HouseNumberFlat = houseNumberFlat;
-    }
-
-    public String getApartmentNumberFlat() {
-        return ApartmentNumberFlat;
-    }
-
-    public void setApartmentNumberFlat(String apartmentNumberFlat) {
-        ApartmentNumberFlat = apartmentNumberFlat;
     }
 
     public @Digits(integer = 10, fraction = 2, message = "Неправильный формат площади") BigDecimal getAreaFlat() {
