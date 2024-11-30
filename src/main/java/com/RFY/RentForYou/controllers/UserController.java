@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.RFY.RentForYou.models.UserModel;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
 @RequestMapping("/admin")
@@ -22,6 +23,8 @@ public class UserController {
 
     @GetMapping("/users")
     public String userView(Model model) {
+        String currentUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
+        model.addAttribute("currentUrl", currentUrl);
         model.addAttribute("user_list", userRepository.findAll());
         return "indexUser";
     }

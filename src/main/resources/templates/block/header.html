@@ -20,23 +20,32 @@
         <li th:if="${#authentication != null and #authentication.principal.authorities.?[name == 'Admin']}">
           <a href="/condition" class="nav-link px-2 text-white">Состояние</a>
         </li>
-        <li th:if="${#authentication != null and #authentication.principal.authorities.?[name == 'Admin']}">
-          <a href="/city" class="nav-link px-2 text-white">Города</a>
+
+        <li th:if="${currentUrl.contains('/flat')}  or ${currentUrl.contains('/house')} or ${currentUrl.contains('/card')}">
+          <a th:href="@{/card}">Карточки  </a><p>   </p>
         </li>
-        <li th:if="${#authentication != null and #authentication.principal.authorities.?[name == 'Manager']}">
-          <a href="/feedback" class="nav-link px-2 text-white">Отзыв</a>
+        <li th:if="${currentUrl.contains('/flat')} or ${currentUrl.contains('/house')} or ${currentUrl.contains('/card')}">
+          <a th:href="@{/flat}">Квартиры</a> <p>   </p>
         </li>
-        <li th:if="${#authentication != null and #authentication.principal.authorities.?[name == 'Manager']}">
-          <a href="/passport" class="nav-link px-2 text-white">Паспорт</a>
+        <li th:if="${currentUrl.contains('/flat')} or ${currentUrl.contains('/house')} or ${currentUrl.contains('/card')}">
+          <a th:href="@{/house}">Домa</a><p>   </p>
         </li>
-        <li th:if="${#authentication != null and #authentication.principal.authorities.?[name == 'User']}">
-          <a href="/card" class="nav-link px-2 text-white">Карточка</a>
+
+        <li th:if="${currentUrl.contains('/admin/users')} or ${currentUrl.contains('/condition')} or ${currentUrl.contains('/city')}">
+          <a th:href="@{/admin/users}">Пользователи  </a><p>   </p>
         </li>
-        <li th:if="${#authentication != null and #authentication.principal.authorities.?[name == 'User']}">
-          <a href="/flat" class="nav-link px-2 text-white">Квартира</a>
+        <li th:if="${currentUrl.contains('/admin/users')} or ${currentUrl.contains('/condition')} or ${currentUrl.contains('/city')}">
+          <a th:href="@{/condition}">Состояние   </a><p>   </p>
         </li>
-        <li th:if="${#authentication != null and #authentication.principal.authorities.?[name == 'User']}">
-          <a href="/house" class="nav-link px-2 text-white">Дом</a>
+        <li th:if="${currentUrl.contains('/admin/users')} or ${currentUrl.contains('/condition')} or ${currentUrl.contains('/city')}">
+          <a th:href="@{/city}">Города </a><p>   </p>
+        </li>
+
+        <li th:if="${currentUrl.contains('/feedback')} or ${currentUrl.contains('/passport')}">
+          <a th:href="@{/feedback}">Отзывы  </a><p>   </p>
+        </li>
+        <li th:if="${currentUrl.contains('/feedback')} or ${currentUrl.contains('/passport')}">
+          <a th:href="@{/passport}">Паспорта </a><p>   </p>
         </li>
       </ul>
 

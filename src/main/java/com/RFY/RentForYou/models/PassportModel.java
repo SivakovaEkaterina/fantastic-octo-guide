@@ -1,6 +1,8 @@
 package com.RFY.RentForYou.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -13,9 +15,13 @@ public class PassportModel {
     private Long IdPassport;
 
     @Column(name = "series", nullable = false)
+    @Size(min = 4, max = 4, message = "Серия паспорта должна содержать 4 цифры")
+    @Pattern(regexp = "\\d{4}", message = "Серия паспорта должна содержать только цифры")
     private String SeriesPassport;
 
     @Column(name = "number", nullable = false)
+    @Size(min = 6, max = 6, message = "Номер паспорта должен содержать 6 цифр")
+    @Pattern(regexp = "\\d{4}", message = "Серия паспорта должна содержать только цифры")
     private String NumberPassport;
 
     @Column(name = "issue_date", nullable = false)
@@ -23,21 +29,28 @@ public class PassportModel {
     private Date IssueDatePassport;
 
     @Column(name = "issued_by", nullable = false)
+    @Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ\\s]+", message = "Выдано должно содержать только буквы")
     private String IssuedByPassport;
 
     @Column(name = "code_division", nullable = false)
+    @Pattern(regexp = "\\d{3}-\\d{3}", message = "Код подразделения должен быть в формате 111-111")
     private String CodeDivisionPassport;
 
     @Column(name = "first_name", nullable = false)
+    @Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ\\s]+", message = "Имя должно содержать только буквы")
     private String FirstNamePassport;
 
     @Column(name = "second_name", nullable = false)
+    @Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ\\s]+", message = "Фамилия должна содержать только буквы")
     private String SecondNamePassport;
 
     @Column(name = "third_name", nullable = false)
+    @Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ\\s]+", message = "Отчество должно содержать только буквы")
     private String ThirdNamePassport;
 
-    public PassportModel(){}
+    public PassportModel() {
+    }
+
     public PassportModel(Long idPassport, String seriesPassport, String numberPassport, Date issueDatePassport, String issuedByPassport, String codeDivisionPassport, String firstNamePassport, String secondNamePassport, String thirdNamePassport) {
         IdPassport = idPassport;
         SeriesPassport = seriesPassport;
@@ -58,19 +71,19 @@ public class PassportModel {
         IdPassport = idPassport;
     }
 
-    public String getSeriesPassport() {
+    public @Size(min = 4, max = 4, message = "Серия паспорта должна содержать 4 цифры") @Pattern(regexp = "\\d{4}", message = "Серия паспорта должна содержать только цифры") String getSeriesPassport() {
         return SeriesPassport;
     }
 
-    public void setSeriesPassport(String seriesPassport) {
+    public void setSeriesPassport(@Size(min = 4, max = 4, message = "Серия паспорта должна содержать 4 цифры") @Pattern(regexp = "\\d{4}", message = "Серия паспорта должна содержать только цифры") String seriesPassport) {
         SeriesPassport = seriesPassport;
     }
 
-    public String getNumberPassport() {
+    public @Size(min = 6, max = 6, message = "Номер паспорта должен содержать 6 цифр") @Pattern(regexp = "\\d{4}", message = "Серия паспорта должна содержать только цифры") String getNumberPassport() {
         return NumberPassport;
     }
 
-    public void setNumberPassport(String numberPassport) {
+    public void setNumberPassport(@Size(min = 6, max = 6, message = "Номер паспорта должен содержать 6 цифр") @Pattern(regexp = "\\d{4}", message = "Серия паспорта должна содержать только цифры") String numberPassport) {
         NumberPassport = numberPassport;
     }
 
@@ -82,43 +95,43 @@ public class PassportModel {
         IssueDatePassport = issueDatePassport;
     }
 
-    public String getIssuedByPassport() {
+    public @Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ\\s]+", message = "Выдано должно содержать только буквы") String getIssuedByPassport() {
         return IssuedByPassport;
     }
 
-    public void setIssuedByPassport(String issuedByPassport) {
+    public void setIssuedByPassport(@Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ\\s]+", message = "Выдано должно содержать только буквы") String issuedByPassport) {
         IssuedByPassport = issuedByPassport;
     }
 
-    public String getCodeDivisionPassport() {
+    public @Pattern(regexp = "\\d{3}-\\d{3}", message = "Код подразделения должен быть в формате 111-111") String getCodeDivisionPassport() {
         return CodeDivisionPassport;
     }
 
-    public void setCodeDivisionPassport(String codeDivisionPassport) {
+    public void setCodeDivisionPassport(@Pattern(regexp = "\\d{3}-\\d{3}", message = "Код подразделения должен быть в формате 111-111") String codeDivisionPassport) {
         CodeDivisionPassport = codeDivisionPassport;
     }
 
-    public String getFirstNamePassport() {
+    public @Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ\\s]+", message = "Имя должно содержать только буквы") String getFirstNamePassport() {
         return FirstNamePassport;
     }
 
-    public void setFirstNamePassport(String firstNamePassport) {
+    public void setFirstNamePassport(@Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ\\s]+", message = "Имя должно содержать только буквы") String firstNamePassport) {
         FirstNamePassport = firstNamePassport;
     }
 
-    public String getSecondNamePassport() {
+    public @Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ\\s]+", message = "Фамилия должна содержать только буквы") String getSecondNamePassport() {
         return SecondNamePassport;
     }
 
-    public void setSecondNamePassport(String secondNamePassport) {
+    public void setSecondNamePassport(@Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ\\s]+", message = "Фамилия должна содержать только буквы") String secondNamePassport) {
         SecondNamePassport = secondNamePassport;
     }
 
-    public String getThirdNamePassport() {
+    public @Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ\\s]+", message = "Отчество должно содержать только буквы") String getThirdNamePassport() {
         return ThirdNamePassport;
     }
 
-    public void setThirdNamePassport(String thirdNamePassport) {
+    public void setThirdNamePassport(@Pattern(regexp = "[a-zA-Zа-яА-ЯёЁ\\s]+", message = "Отчество должно содержать только буквы") String thirdNamePassport) {
         ThirdNamePassport = thirdNamePassport;
     }
 }

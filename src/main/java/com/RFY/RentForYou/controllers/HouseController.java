@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -28,6 +29,9 @@ public class HouseController {
 
     @GetMapping("")
     public String getAllHouses(Model model) {
+        String currentUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
+        model.addAttribute("currentUrl", currentUrl);
+
         model.addAttribute("houses", houseServer.findAllHouses());
         model.addAttribute("house", new HouseModel());
 
@@ -39,10 +43,9 @@ public class HouseController {
     }
 
     @PostMapping("/add")
-    public String addHouse(@Valid @ModelAttribute HouseModel houseModel, BindingResult result, Model model) {
+    public String addHouse(@Valid @ModelAttribute("house") HouseModel houseModel, BindingResult result, Model model) {
         if (result.hasErrors()){
             model.addAttribute("houses", houseServer.findAllHouses());
-            model.addAttribute("house", new HouseModel());
             return "housePg";
         }
         houseServer.addHouse(houseModel);

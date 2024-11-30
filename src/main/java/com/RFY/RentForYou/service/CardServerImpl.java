@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.RFY.RentForYou.repository.CardRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CardServerImpl implements CardServer{
@@ -21,7 +22,7 @@ public class CardServerImpl implements CardServer{
     }
 
     @Override
-    public CardModel findCard(Long id){
+    public CardModel findCard(UUID id){
         return cardRepository.findById(id).orElse(null);
     }
 
@@ -39,7 +40,7 @@ public class CardServerImpl implements CardServer{
     }
 
     @Override
-    public void deleteCard(Long id){
+    public void deleteCard(UUID id){
         if (cardRepository.existsById(id)) {
             cardRepository.deleteById(id);
         }

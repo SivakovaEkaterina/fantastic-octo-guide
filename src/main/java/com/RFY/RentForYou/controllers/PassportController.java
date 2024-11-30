@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.RFY.RentForYou.service.PassportServerImpl;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
 @RequestMapping("/passport")
@@ -21,6 +22,8 @@ public class PassportController {
 
     @GetMapping("")
     public String getAll(Model model) {
+        String currentUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
+        model.addAttribute("currentUrl", currentUrl);
         model.addAttribute("models", passportServer.findAllPassport());
         model.addAttribute("passport", new PassportModel());
         return "passportForm";
@@ -28,6 +31,9 @@ public class PassportController {
 
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute("passport") PassportModel passport, BindingResult result, Model model) {
+        String currentUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
+        model.addAttribute("currentUrl", currentUrl);
+
         if (result.hasErrors()) {
             model.addAttribute("models", passportServer.findAllPassport());
             return "passportForm";

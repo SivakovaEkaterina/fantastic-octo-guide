@@ -3,6 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <title>Управление карточками</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    input[type="text"], textarea, select {
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #5cb85c;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4cae4c;
+    }
+    .card-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .card-item {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      flex: 1 1 calc(30% - 20px); /* 3 карточки в ряд */
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .card-item span {
+      display: block;
+      margin: 5px 0;
+    }
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
 <div th:insert="block/header"></div>
@@ -13,16 +71,23 @@
   <input type="text" name="PriceCard" placeholder="Цена" th:field="*{PriceCard}" required>
 
   <select name="flatCard" th:field="*{FlatCard}">
-    <option value=""  selected>Выберите квартиру</option>
+    <option value="" selected>Выберите квартиру</option>
     <th:block th:each="flat : ${flats}">
       <option th:value="${flat.id}" th:text="${flat.NameFlat}"></option>
     </th:block>
   </select>
 
   <select name="houseCard" th:field="*{HouseCard}">
-    <option value=""  selected>Выберите дом</option>
+    <option value="" selected>Выберите дом</option>
     <th:block th:each="house : ${houses}">
       <option th:value="${house.id}" th:text="${house.NameHouse}"></option>
+    </th:block>
+  </select>
+
+  <select name="conditionCard" th:field="*{ConditionCard}">
+    <option value="" selected>Выберите состояние</option>
+    <th:block th:each="condition : ${conditions}">
+      <option th:value="${condition.id}" th:text="${condition.NameCondition}"></option>
     </th:block>
   </select>
 
@@ -30,13 +95,13 @@
 </form>
 
 <h2>Все карточки:</h2>
-<ul>
+<div class="card-list">
   <th:block th:each="card : ${cards}">
-    <li>
+    <div class="card-item">
       <span th:text="'Название: ' + ${card.NameCard}"></span>
       <span th:text="'Цена: ' + ${card.PriceCard}"></span>
-      <span th:text="'Квартира: '+ ${card.FlatCard}"></span>
-      <span th:text="'Дом: '+ ${card.HouseCard}"></span>
+      <span th:text="'Квартира: '+ (${card.FlatCard} != null ? ${card.FlatCard.getNameFlat()} : '')"></span>
+      <span th:text="'Дом: '+ (${card.HouseCard} != null ? ${card.HouseCard.getNameHouse()} : '')"></span>
       <span th:text="'Описание: '+ ${card.DescriptionCard}"></span>
       <form action="/card/update" method="post" th:object="${card}">
         <input type="hidden" name="id" th:value="${card.id}">
@@ -44,7 +109,7 @@
         <textarea name="DescriptionCard" placeholder="Описание" th:field="*{DescriptionCard}"></textarea>
         <input type="text" name="PriceCard" th:value="${card.PriceCard}" required>
 
-        <select name="flatCard" th:field="*{FlatCard}" >
+        <select name="flatCard" th:field="*{FlatCard}">
           <option value="" selected>Выберите квартиру</option>
           <th:block th:each="flat : ${flats}">
             <option th:value="${flat.id}" th:text="${flat.NameFlat}" th:selected="${flat.id == card.FlatCard}"></option>
@@ -52,7 +117,7 @@
         </select>
 
         <select name="houseCard" th:field="*{HouseCard}">
-          <option value=""  selected>Выберите дом</option>
+          <option value="" selected>Выберите дом</option>
           <th:block th:each="house : ${houses}">
             <option th:value="${house.id}" th:text="${house.NameHouse}" th:selected="${house.id == card.HouseCard}"></option>
           </th:block>
@@ -60,12 +125,14 @@
 
         <button type="submit">Изменить</button>
       </form>
-      <form action="/card/delete" method="post" style="display:inline;">
-        <input type="hidden" name="id" th:value="${card.id}">
-        <button type="submit">Удалить</button>
-      </form>
-    </li>
+      <div class="card-actions">
+        <form action="/card/delete" method="post" style="display:inline;">
+          <input type="hidden" name="id" th:value="${card.id}">
+          <button type="submit">Удалить</button>
+        </form>
+      </div>
+    </div>
   </th:block>
-</ul>
+</div>
 </body>
 </html>

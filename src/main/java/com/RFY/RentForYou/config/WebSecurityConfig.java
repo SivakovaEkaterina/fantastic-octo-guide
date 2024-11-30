@@ -70,12 +70,32 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(authorize ->
                         authorize.requestMatchers("/login", "/registration").permitAll()
                                 .anyRequest().authenticated())
-                .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/city").permitAll())
+
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .successHandler((request, response, authentication) -> {
+                            boolean isAdmin = authentication.getAuthorities().stream()
+                                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("Admin"));
+                            boolean isUser = authentication.getAuthorities().stream()
+                                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("User"));
+                            boolean isManager = authentication.getAuthorities().stream()
+                                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("Manager"));
+
+                            if (isAdmin) {
+                                response.sendRedirect("/admin/users"); // Страница для администраторов
+                            } else if (isUser) {
+                                response.sendRedirect("/flat"); // Страница для пользователей
+                            } else if (isManager) {
+                                response.sendRedirect("/feedback"); // Страница для менеджеров
+                            } else {
+                                response.sendRedirect("/city"); // Страница по умолчанию
+                            }
+                        })
+                        .permitAll())
                 .logout(logout -> logout.permitAll())
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable());
 
         return http.build();
-
     }
 }

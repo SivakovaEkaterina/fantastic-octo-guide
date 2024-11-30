@@ -8,6 +8,7 @@ import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
 @RequestMapping("/condition")
@@ -21,6 +22,8 @@ public class ConditionController {
 
     @GetMapping("")
     public String getAll(Model model) {
+        String currentUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
+        model.addAttribute("currentUrl", currentUrl);
         model.addAttribute("conditions", conditionServer.findAllConditions());
         model.addAttribute("condition", new ConditionModel());
         return "conditionPg"; // Название вашей HTML страницы

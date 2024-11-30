@@ -5,44 +5,39 @@
   <title>Title</title>
 </head>
 <body>
-
+<div th:insert="block/header"></div>
 <form action="/passport/add" method="post" th:object="${passport}">
+  <h2>Добавить паспорт: </h2>
   <input type="text" name="seriesPassport" placeholder="Серия паспорта" th:field="*{seriesPassport}" required>
+  <input type="text" name="numberPassport" placeholder="Номер паспорта" th:field="*{numberPassport}" required>
+  <input type="date" name="issueDatePassport" placeholder="Дата выдачи паспорта" th:field="*{issueDatePassport}" required>
+  <input type="text" name="issuedByPassport" placeholder="Кем выдан паспорт" th:field="*{issuedByPassport}" required>
+  <input type="text" name="codeDivisionPassport" placeholder="Код подразделения" th:field="*{codeDivisionPassport}" required>
+  <input type="text" name="firstNamePassport" placeholder="Имя" th:field="*{firstNamePassport}" required>
+  <input type="text" name="secondNamePassport" placeholder="Фамилия" th:field="*{secondNamePassport}" required>
+  <input type="text" name="thirdNamePassport" placeholder="Отчество" th:field="*{thirdNamePassport}" required>
+
   <div th:if="${#fields.hasErrors('seriesPassport')}" th:errors="*{seriesPassport}">
     Серия паспорта обязательна
   </div>
-
-  <input type="text" name="numberPassport" placeholder="Номер паспорта" th:field="*{numberPassport}" required>
   <div th:if="${#fields.hasErrors('numberPassport')}" th:errors="*{numberPassport}">
     Номер паспорта обязательный
   </div>
-
-  <input type="date" name="issueDatePassport" placeholder="Дата выдачи паспорта" th:field="*{issueDatePassport}" required>
   <div th:if="${#fields.hasErrors('issueDatePassport')}" th:errors="*{issueDatePassport}">
     Дата выдачи паспорта обязательна
   </div>
-
-  <input type="text" name="issuedByPassport" placeholder="Кем выдан паспорт" th:field="*{issuedByPassport}" required>
   <div th:if="${#fields.hasErrors('issuedByPassport')}" th:errors="*{issuedByPassport}">
     Кем выдан паспорт обязательный
   </div>
-
-  <input type="text" name="codeDivisionPassport" placeholder="Код подразделения" th:field="*{codeDivisionPassport}" required>
   <div th:if="${#fields.hasErrors('codeDivisionPassport')}" th:errors="*{codeDivisionPassport}">
     Код подразделения обязательный
   </div>
-
-  <input type="text" name="firstNamePassport" placeholder="Имя" th:field="*{firstNamePassport}" required>
   <div th:if="${#fields.hasErrors('firstNamePassport')}" th:errors="*{firstNamePassport}">
     Имя обязательное
   </div>
-
-  <input type="text" name="secondNamePassport" placeholder="Фамилия" th:field="*{secondNamePassport}" required>
   <div th:if="${#fields.hasErrors('secondNamePassport')}" th:errors="*{secondNamePassport}">
     Фамилия обязательная
   </div>
-
-  <input type="text" name="thirdNamePassport" placeholder="Отчество" th:field="*{thirdNamePassport}" required>
   <div th:if="${#fields.hasErrors('thirdNamePassport')}" th:errors="*{thirdNamePassport}">
     Отчество обязательное
   </div>

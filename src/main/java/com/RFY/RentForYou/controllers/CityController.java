@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
 @RequestMapping("/city")
@@ -21,6 +22,8 @@ public class CityController {
 
     @GetMapping("")
     public String getAll(Model model) {
+        String currentUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
+        model.addAttribute("currentUrl", currentUrl);
         model.addAttribute("models", cityServer.findAllCity());
         model.addAttribute("city", new CityModel());
         return "adminPg0";

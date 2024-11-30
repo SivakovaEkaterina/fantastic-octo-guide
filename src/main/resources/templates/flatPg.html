@@ -10,7 +10,7 @@
 <form action="/flat/add" method="post" th:object="${flat}">
   <input type="text" name="nameFlat" placeholder="Название квартиры" th:field="*{nameFlat}" required>
   <div th:if="${#fields.hasErrors('nameFlat')}" th:errors="*{nameFlat}">
-    Имя не должно быть короче 3 символов
+    <p>Имя не должно быть короче 3 символов</p>
   </div>
 
   <input type="text" name="flatNumberFlat" placeholder="Номер квартиры" th:field="*{flatNumberFlat}" required>
@@ -58,14 +58,37 @@
       <span th:text="${flat.floorNumberFlat}"></span>
       <span th:text="${flat.areaFlat}"></span>
       <span th:text="${flat.roomsCountFlat}"></span><br>
-      <form action="/flat/update" method="post" style="display:inline;">
+      <form action="/flat/update" method="post" style="display:inline;" th:object="${flat}">
         <input type="hidden" name="id" th:value="${flat.id}">
-        <input type="text" name="nameFlat" th:value="${flat.nameFlat}" required placeholder="Название квартиры">
-        <input type="text" name="flatNumberFlat" th:value="${flat.flatNumberFlat}" required placeholder="Номер квартиры">
-        <input type="text" name="houseNumberFlat" th:value="${flat.houseNumberFlat}" required placeholder="Номер дома">
-        <input type="text" name="floorNumberFlat" th:value="${flat.floorNumberFlat}" required placeholder="Этаж">
-        <input type="text" name="areaFlat" th:value="${flat.areaFlat}" required placeholder="Площадь">
-        <input type="text" name="roomsCountFlat" th:value="${flat.roomsCountFlat}" placeholder="Количество комнат">
+        <input type="text" name="nameFlat" placeholder="Название квартиры" th:field="*{nameFlat}" required>
+        <div th:if="${#fields.hasErrors('nameFlat')}" th:errors="*{nameFlat}">
+          <p>Имя не должно быть короче 3 символов</p>
+        </div>
+
+        <input type="text" name="flatNumberFlat" placeholder="Номер квартиры" th:field="*{flatNumberFlat}" required>
+        <div th:if="${#fields.hasErrors('flatNumberFlat')}" th:errors="*{flatNumberFlat}">
+          Номер квартиры не должен быть пустым
+        </div>
+
+        <input type="text" name="houseNumberFlat" placeholder="Номер дома" th:field="*{houseNumberFlat}" required>
+        <div th:if="${#fields.hasErrors('houseNumberFlat')}" th:errors="*{houseNumberFlat}">
+          Номер дома не должен быть пустым
+        </div>
+
+        <input type="number" name="floorNumberFlat" placeholder="Этаж" th:field="*{floorNumberFlat}" required>
+        <div th:if="${#fields.hasErrors('floorNumberFlat')}" th:errors="*{floorNumberFlat}">
+          Этаж не может быть отрицательным
+        </div>
+
+        <input type="text" name="areaFlat" placeholder="Площадь" th:field="*{areaFlat}" required>
+        <div th:if="${#fields.hasErrors('areaFlat')}" th:errors="*{areaFlat}">
+          Неправильный формат площади
+        </div>
+
+        <input type="number" name="roomsCountFlat" placeholder="Количество комнат" th:field="*{roomsCountFlat}">
+        <div th:if="${#fields.hasErrors('roomsCountFlat')}" th:errors="*{roomsCountFlat}">
+          Количество комнат не может быть отрицательным
+        </div>
         <button type="submit">Изменить</button>
       </form>
       <form action="/flat/delete" method="post" style="display:inline;">

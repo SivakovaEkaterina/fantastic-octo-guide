@@ -13,7 +13,7 @@ public class FlatPictureModel {
     @JoinColumn(name = "picture_id", referencedColumnName = "IdPicture")
     private PictureModel Picture;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "flat_id", referencedColumnName = "IdFlat")
     private FlatModel Flat;
 

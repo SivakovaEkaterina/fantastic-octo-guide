@@ -14,15 +14,17 @@ public class FeedbackModel {
     private String NameFeedback;
     @ManyToOne
     @JoinColumn(name = "card_id", referencedColumnName = "IdCard")
-    private CardModel Card;
+    private CardModel CardFeedback;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "IdUser")
     private UserModel IdUser;
 
     public FeedbackModel(){}
-    public FeedbackModel(Long idFeedback, String nameFeedback, UserModel idUser) {
+
+    public FeedbackModel(Long idFeedback, String nameFeedback, CardModel cardFeedback, UserModel idUser) {
         IdFeedback = idFeedback;
         NameFeedback = nameFeedback;
+        CardFeedback = cardFeedback;
         IdUser = idUser;
     }
 
@@ -34,12 +36,20 @@ public class FeedbackModel {
         IdFeedback = idFeedback;
     }
 
-    public @Size(min = 3, message = "Имя не менее 3 символов") String getNameFeedback() {
+    public @Size(min = 3, message = "Комментарий не менее 3-х символов") String getNameFeedback() {
         return NameFeedback;
     }
 
-    public void setNameFeedback(@Size(min = 3, message = "Имя не менее 3 символов") String nameFeedback) {
+    public void setNameFeedback(@Size(min = 3, message = "Комментарий не менее 3-х символов") String nameFeedback) {
         NameFeedback = nameFeedback;
+    }
+
+    public CardModel getCardFeedback() {
+        return CardFeedback;
+    }
+
+    public void setCardFeedback(CardModel cardFeedback) {
+        CardFeedback = cardFeedback;
     }
 
     public UserModel getIdUser() {

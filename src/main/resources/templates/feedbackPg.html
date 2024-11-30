@@ -9,6 +9,13 @@
 <h1>Добавить отзыв</h1>
 <form action="/feedback/add" method="post" th:object="${feedback}">
   <input type="text" name="nameFeedback" placeholder="Текст отзыва" th:field="*{nameFeedback}" required>
+  <select name="cardId" th:field="*{cardFeedback.id}" required>
+    <option value="" disabled selected>Выберите карточку</option>
+    <th:block th:each="card : ${cards}">
+      <option th:value="${card.id}" th:text="${card.nameCard}" th:selected="${card.id == feedback.cardFeedback.id}"></option>
+    </th:block>
+  </select>
+
   <button type="submit">Добавить отзыв</button>
 </form>
 
@@ -16,7 +23,10 @@
 <ul>
   <th:block th:each="feedback : ${feedbacks}">
     <li>
-      <span th:text="${feedback.nameFeedback}"></span>
+        <span>
+          Отзыв: <span th:text="${feedback.nameFeedback}"></span>
+          Карточка: <span th:text="${feedback.cardFeedback.nameCard}"></span>
+        </span>
       <form action="/feedback/update" method="post">
         <input type="hidden" name="id" th:value="${feedback.id}">
         <input type="text" name="nameFeedback" th:value="${feedback.nameFeedback}" required>

@@ -8,6 +8,7 @@ import com.RFY.RentForYou.service.RoleServerImpl;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
 @RequestMapping("/role")
@@ -21,6 +22,8 @@ public class RoleController {
 
     @GetMapping("")
     public String getAll(Model model) {
+        String currentUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
+        model.addAttribute("currentUrl", currentUrl);
         model.addAttribute("models", roleServer.findAllRole());
         model.addAttribute("role", new RoleModel());
         return "adminPg0";

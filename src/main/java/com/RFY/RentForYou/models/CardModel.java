@@ -4,15 +4,18 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table(name = "cards")
 public class CardModel{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long IdCard;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID IdCard;
 
     @Size(min = 3, message = "Имя не менее 3 символов")
     private String NameCard;
@@ -38,10 +41,15 @@ public class CardModel{
     @JoinColumn(name = "owner_id", referencedColumnName = "IdUser")
     private UserModel OwnerIdCard;
 
+    @ManyToOne
+    @JoinColumn(name = "conditionModel", referencedColumnName = "IdCondition")
+    private ConditionModel ConditionCard;
+
+
 
     public CardModel(){}
 
-    public CardModel(Long idCard, String nameCard, @Nullable FlatModel flatCard, @Nullable HouseModel houseCard, String descriptionCard, BigDecimal priceCard, UserModel ownerIdCard) {
+    public CardModel(UUID idCard, String nameCard, @Nullable FlatModel flatCard, @Nullable HouseModel houseCard, String descriptionCard, BigDecimal priceCard, UserModel ownerIdCard, com.RFY.RentForYou.models.ConditionModel conditionCard) {
         IdCard = idCard;
         NameCard = nameCard;
         FlatCard = flatCard;
@@ -49,13 +57,14 @@ public class CardModel{
         DescriptionCard = descriptionCard;
         PriceCard = priceCard;
         OwnerIdCard = ownerIdCard;
+        ConditionCard = conditionCard;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return IdCard;
     }
 
-    public void setId(Long idCard) {
+    public void setId(UUID idCard) {
         IdCard = idCard;
     }
 
@@ -99,6 +108,14 @@ public class CardModel{
 
     public void setPriceCard(@Digits(integer = 10, fraction = 2, message = "Неправильный формат цены") BigDecimal priceCard) {
         PriceCard = priceCard;
+    }
+
+    public ConditionModel getConditionCard() {
+        return ConditionCard;
+    }
+
+    public void setConditionCard(ConditionModel conditionCard) {
+        ConditionCard = conditionCard;
     }
 
     public UserModel getOwnerIdCard() {

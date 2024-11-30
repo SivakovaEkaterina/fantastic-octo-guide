@@ -3,19 +3,84 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Регистрация</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+        a {
+            text-align: center;
+            display: block;
+            margin-top: 15px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<div th:if="${message}">
-    Пользователь уже существует.
+<div class="container">
+    <h1>Регистрация</h1>
+    <div th:if="${message}" class="error-message">
+        Пользователь уже существует.
+    </div>
+
+    <form th:action="@{/registration}" method="post">
+        <label>Логин: <input type="text" name="username" required/></label>
+        <label>Пароль: <input type="password" name="password" required/></label>
+        <input type="submit" value="Регистрация">
+    </form>
+    <a href="/login">Авторизация</a>
 </div>
-
-<form th:action="@{/registration}" method="post">
-    <div><label>Логин: <input type="text" name="username"/></label></div>
-    <div><label>Пароль: <input type="password" name="password"/></label></div>
-    <div><input type="submit" value="Регистрация"></div>
-</form>
-<a href="/login">Авторизация</a>
-
 </body>
 </html>

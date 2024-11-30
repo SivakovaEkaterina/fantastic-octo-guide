@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
@@ -15,12 +16,15 @@ public class HouseModel {
     private Long IdHouse;
 
     @Column(name = "name", nullable = false)
+    @Size(min = 3, message = "Имя не менее 3 символов")
     private String NameHouse;
 
-    @Column(name = "city_id", nullable = false)
-    private Long CityIdHouse;
+    @ManyToOne
+    @JoinColumn(name = "city_id", referencedColumnName = "IdCity")
+    private CityModel CityModel;
 
     @Column(name = "street", nullable = false)
+    @Size(min = 3, message = "Имя не менее 3 символов")
     private String StreetHouse;
 
     @Column(name = "house_number", nullable = false)
@@ -35,11 +39,11 @@ public class HouseModel {
     private Integer ConstructionYearHouse;
 
     @Column(name = "floors_count", nullable = true)
-    @Min(value = 0, message = "этаж не может быть отрицательным")
+    @Min(value = 1, message = "этажей не может быть меньше 1")
     private Integer FloorsCountHouse;
 
     @Column(name = "apartments_count", nullable = true)
-    @Min(value = 0, message = "колличество комнат не может быть отрицательным")
+    @Min(value = 1, message = "колличество комнат не может быть меньше 1")
     private Integer ApartmentsCountHouse;
 
     @ManyToOne
@@ -47,10 +51,10 @@ public class HouseModel {
     private UserModel OwnerIdHouse;
 
     public HouseModel(){}
-    public HouseModel(Long idHouse, String nameHouse, Long cityIdHouse, String streetHouse, String houseNumberHouse, BigDecimal areaHouse, Integer constructionYearHouse, Integer floorsCountHouse, Integer apartmentsCountHouse, UserModel ownerIdHouse) {
+    public HouseModel(Long idHouse, String nameHouse, CityModel cityIdHouse, String streetHouse, String houseNumberHouse, BigDecimal areaHouse, Integer constructionYearHouse, Integer floorsCountHouse, Integer apartmentsCountHouse, UserModel ownerIdHouse) {
         IdHouse = idHouse;
         NameHouse = nameHouse;
-        CityIdHouse = cityIdHouse;
+        CityModel = cityIdHouse;
         StreetHouse = streetHouse;
         HouseNumberHouse = houseNumberHouse;
         AreaHouse = areaHouse;
@@ -68,27 +72,27 @@ public class HouseModel {
         IdHouse = idHouse;
     }
 
-    public String getNameHouse() {
+    public @Size(min = 3, message = "Имя не менее 3 символов") String getNameHouse() {
         return NameHouse;
     }
 
-    public void setNameHouse(String nameHouse) {
+    public void setNameHouse(@Size(min = 3, message = "Имя не менее 3 символов") String nameHouse) {
         NameHouse = nameHouse;
     }
 
-    public Long getCityIdHouse() {
-        return CityIdHouse;
+    public com.RFY.RentForYou.models.CityModel getCityModel() {
+        return CityModel;
     }
 
-    public void setCityIdHouse(Long cityIdHouse) {
-        CityIdHouse = cityIdHouse;
+    public void setCityModel(com.RFY.RentForYou.models.CityModel cityModel) {
+        CityModel = cityModel;
     }
 
-    public String getStreetHouse() {
+    public @Size(min = 3, message = "Имя не менее 3 символов") String getStreetHouse() {
         return StreetHouse;
     }
 
-    public void setStreetHouse(String streetHouse) {
+    public void setStreetHouse(@Size(min = 3, message = "Имя не менее 3 символов") String streetHouse) {
         StreetHouse = streetHouse;
     }
 
@@ -116,19 +120,19 @@ public class HouseModel {
         ConstructionYearHouse = constructionYearHouse;
     }
 
-    public @Min(value = 0, message = "этаж не может быть отрицательным") Integer getFloorsCountHouse() {
+    public @Min(value = 1, message = "этажей не может быть меньше 1") Integer getFloorsCountHouse() {
         return FloorsCountHouse;
     }
 
-    public void setFloorsCountHouse(@Min(value = 0, message = "этаж не может быть отрицательным") Integer floorsCountHouse) {
+    public void setFloorsCountHouse(@Min(value = 0, message = "этажей не может быть меньше 1") Integer floorsCountHouse) {
         FloorsCountHouse = floorsCountHouse;
     }
 
-    public @Min(value = 0, message = "колличество комнат не может быть отрицательным") Integer getApartmentsCountHouse() {
+    public @Min(value = 0, message = "колличество комнат не может быть меньше 1") Integer getApartmentsCountHouse() {
         return ApartmentsCountHouse;
     }
 
-    public void setApartmentsCountHouse(@Min(value = 0, message = "колличество комнат не может быть отрицательным") Integer apartmentsCountHouse) {
+    public void setApartmentsCountHouse(@Min(value = 0, message = "колличество комнат не может быть меньше 1") Integer apartmentsCountHouse) {
         ApartmentsCountHouse = apartmentsCountHouse;
     }
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
 @RequestMapping("/flat")
@@ -21,16 +22,17 @@ public class FlatController {
 
     @GetMapping("")
     public String getAllFlats(Model model) {
+        String currentUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
+        model.addAttribute("currentUrl", currentUrl);
         model.addAttribute("flats", flatService.findAllFlats());
         model.addAttribute("flat", new FlatModel());
         return "flatPg";
     }
 
     @PostMapping("/add")
-    public String addFlat(@Valid  @ModelAttribute FlatModel flatModel, BindingResult result, Model model) {
+    public String addFlat(@Valid  @ModelAttribute("flat") FlatModel flatModel, BindingResult result, Model model) {
         if (result.hasErrors()){
             model.addAttribute("flats", flatService.findAllFlats());
-            model.addAttribute("flat", new FlatModel());
             return "flatPg";
         }
         flatService.addFlat(flatModel);
@@ -38,7 +40,11 @@ public class FlatController {
     }
 
     @PostMapping("/update")
-    public String updateFlat(@ModelAttribute FlatModel flatModel) {
+    public String updateFlat(@Valid  @ModelAttribute("flat") FlatModel flatModel, BindingResult result, Model model) {
+        if (result.hasErrors()){
+            model.addAttribute("flats", flatService.findAllFlats());
+            return "flatPg";
+        }
         flatService.updateFlat(flatModel);
         return "redirect:/flat";
     }

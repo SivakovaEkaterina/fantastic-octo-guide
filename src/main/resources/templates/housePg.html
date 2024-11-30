@@ -9,18 +9,39 @@
 <h1>Добавить дом</h1>
 <form action="/house/add" method="post" th:object="${house}">
   <input type="text" name="nameHouse" placeholder="Название дома" th:field="*{nameHouse}" required>
-  <select name="cityId" th:field="*{CityIdHouse}" required>
+  <div th:if="${#fields.hasErrors('nameHouse')}" th:errors="*{nameHouse}">
+    <p>Имя не менее 3 символов</p>
+  </div>
+  <select name="cityId" th:field="*{cityModel.id}" required>
     <option value="" disabled selected>Выберите город</option>
     <th:block th:each="city : ${cities}">
-      <option th:value="${city.id}" th:text="${city.nameCity}"></option>
+      <option th:value="${city.id}" th:text="${city.nameCity}" th:selected="${city.id == house.cityModel.id}"></option>
     </th:block>
   </select>
   <input type="text" name="streetHouse" placeholder="Улица" th:field="*{streetHouse}" required>
+  <div th:if="${#fields.hasErrors('streetHouse')}" th:errors="*{streetHouse}">
+    <p>Имя не менее 3 символов</p>
+  </div>
   <input type="text" name="houseNumberHouse" placeholder="Номер дома" th:field="*{houseNumberHouse}" required>
+  <div th:if="${#fields.hasErrors('houseNumberHouse')}" th:errors="*{houseNumberHouse}">
+    <p>Имя не менее 3 символов</p>
+  </div>
   <input type="text" name="areaHouse" placeholder="Площадь" th:field="*{areaHouse}" required>
+  <div th:if="${#fields.hasErrors('areaHouse')}" th:errors="*{areaHouse}">
+    <p>Неправильный формат площади</p>
+  </div>
   <input type="text" name="constructionYearHouse" placeholder="Год постройки" th:field="*{constructionYearHouse}">
+  <div th:if="${#fields.hasErrors('constructionYearHouse')}" th:errors="*{constructionYearHouse}">
+    <p>год не может быть ранее 1900</p>
+  </div>
   <input type="text" name="floorsCountHouse" placeholder="Количество этажей" th:field="*{floorsCountHouse}">
+  <div th:if="${#fields.hasErrors('floorsCountHouse')}" th:errors="*{floorsCountHouse}">
+    <p>этажей не может быть меньше 1</p>
+  </div>
   <input type="text" name="apartmentsCountHouse" placeholder="Количество квартир" th:field="*{apartmentsCountHouse}">
+  <div th:if="${#fields.hasErrors('apartmentsCountHouse')}" th:errors="*{apartmentsCountHouse}">
+    <p>колличество комнат не может быть меньше 1</p>
+  </div>
   <button type="submit">Добавить дом</button>
 </form>
 
@@ -30,7 +51,7 @@
     <li>
       <span>
         Название: <span th:text="${house.nameHouse}"></span>,
-        Город: <span th:text="${house.cityIdHouse}"></span>,
+        Город: <span th:text="${house.cityModel.nameCity}"></span>,
         Улица: <span th:text="${house.streetHouse}"></span>,
         Номер дома: <span th:text="${house.houseNumberHouse}"></span>,
         Площадь: <span th:text="${house.areaHouse}"></span>,
@@ -42,13 +63,12 @@
         <input type="hidden" name="id" th:value="${house.id}">
         <input type="text" name="nameHouse" placeholder="Название дома" th:field="*{nameHouse}" required>
 
-        <select name="cityId" th:field="*{cityIdHouse}" required>
-          <option value="" disabled>Выберите город</option>
+        <select name="cityId" th:field="*{cityModel.id}" required>
+          <option value="" disabled selected>Выберите город</option>
           <th:block th:each="city : ${cities}">
-            <option th:value="${city.id}" th:text="${city.nameCity}" th:selected="${city.id == house.cityIdHouse}"></option>
+            <option th:value="${city.id}" th:text="${city.nameCity}" th:selected="${city.id == house.cityModel.id}"></option>
           </th:block>
         </select>
-
         <input type="text" name="streetHouse" placeholder="Улица" th:field="*{streetHouse}" required>
         <input type="text" name="houseNumberHouse" placeholder="Номер дома" th:field="*{houseNumberHouse}" required>
         <input type="text" name="areaHouse" placeholder="Площадь" th:field="*{areaHouse}" required>
